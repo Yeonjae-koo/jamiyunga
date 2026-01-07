@@ -1,0 +1,45 @@
+# ---- Ren'Py ----
+game/cache/
+game/saves/
+**/__pycache__/
+
+# ---- Builds / dist ----
+dist/
+build/
+*-dists/
+*.zip
+*.dmg
+*.app
+*.apk
+*.aab
+
+# ---- OS ----
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# ---- IDE ----
+.vscode/
+.idea/
+*.iml
+
+# ---- misc ----
+*.log
+*.tmp
+
+# Python venv
+.venv/
+venv/
+env/
+
+# Python artifacts
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Jupyter (쓰는 경우)
+.ipynb_checkpoints/
