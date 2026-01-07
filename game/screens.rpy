@@ -75,15 +75,14 @@ style frame:
     padding gui.frame_borders.padding
     background Frame("gui/frame.png", gui.frame_borders, tile=gui.frame_tile)
 
-transform nav_btn_idle:
+transform nav_btn_idle: 
     xzoom 0.28
     yzoom 0.23
     matrixcolor BrightnessMatrix(0.0)
 
 transform nav_btn_hover:
-    xzoom 0.29
-    yzoom 0.24
-    linear 0.04
+    xzoom 0.28
+    yzoom 0.23
     matrixcolor BrightnessMatrix(0.10)
 
 screen nav_img_btn(img, act):
@@ -99,9 +98,10 @@ transform gallery_btn_idle:
     yzoom 0.5
     matrixcolor BrightnessMatrix(0.0)
 
-transform gallery_btn_hover:
-    xzoom 0.5
-    yzoom 0.5
+transform gallery_btn_hover: 
+    xzoom 0.55
+    yzoom 0.55
+    
     matrixcolor BrightnessMatrix(0.10)
 
 screen gallery_img_btn(img, act):
@@ -387,6 +387,7 @@ screen navigation():
         yalign 0.9
         spacing gui.navigation_spacing
 
+
         if main_menu:
 
             use nav_img_btn("images/buttons/처음부터.webp", Start())
@@ -490,70 +491,37 @@ style main_menu_version:
 ## scroll 매개변수는, None, "viewport" 혹은 "vpgrid" 중 하나여야 합니다.
 ## transclude 명령어를 통해 다른 스크린을 이 스크린 내부에 불러옵니다.
 
-screen game_menu(title, scroll=None, yinitial=0.0, spacing=0):
+screen game_menu(title, scroll=None, yinitial=0.0, spacing=0, show_nav=True):
 
     style_prefix "game_menu"
-
-    if main_menu:
-        add gui.main_menu_background
-    else:
-        add gui.game_menu_background
+    add gui.game_menu_background
 
     frame:
         style "game_menu_outer_frame"
 
         hbox:
 
-            ## 탐색 섹션을 위한 공간 예약.
             frame:
                 style "game_menu_navigation_frame"
+
+                if show_nav:
+                    use navigation
 
             frame:
                 style "game_menu_content_frame"
 
                 if scroll == "viewport":
-
                     viewport:
                         yinitial yinitial
                         scrollbars "vertical"
                         mousewheel True
                         draggable True
-                        pagekeys True
-
-                        side_yfill True
-
-                        vbox:
-                            spacing spacing
-
-                            transclude
-
-                elif scroll == "vpgrid":
-
-                    vpgrid:
-                        cols 1
-                        yinitial yinitial
-
-                        scrollbars "vertical"
-                        mousewheel True
-                        draggable True
-                        pagekeys True
-
-                        side_yfill True
-
-                        spacing spacing
-
                         transclude
-
                 else:
-
                     transclude
+    
 
-    use navigation
-
-    textbutton _("돌아가기"):
-        style "return_button"
-
-        action Return()
+    # use nav_img_btn("images/buttons/back_button.webp", Return())
 
     label title
 
@@ -658,35 +626,21 @@ style about_label_text:
 ## https://www.renpy.org/doc/html/screen_special.html#save https://
 ## www.renpy.org/doc/html/screen_special.html#load
 
-screen save():
+screen file_slots(title, show_nav=False):
 
-    tag menu
+    default page_name_value = FilePageNameInputValue(
+        pattern=_("{} 페이지"),
+        auto=_("자동 세이브"),
+        quick=_("퀵세이브")
+    )
 
-    use file_slots(_("저장하기"))
-
-
-screen load():
-
-    tag menu
-
-    use file_slots(_("불러오기"))
-
-
-screen file_slots(title):
-
-    default page_name_value = FilePageNameInputValue(pattern=_("{} 페이지"), auto=_("자동 세이브"), quick=_("퀵세이브"))
-
-    use game_menu(title):
+    use game_menu(title, show_nav=show_nav):
 
         fixed:
-
-            ## input이 세이브/로드 버튼보다 먼저 엔터에 반응하도록 합니다.
             order_reverse True
 
-            ## 페이지 제목을 플레이어가 수정할 수 있음.
             button:
                 style "page_label"
-
                 key_events True
                 xalign 0.5
                 action page_name_value.Toggle()
@@ -695,22 +649,17 @@ screen file_slots(title):
                     style "page_label_text"
                     value page_name_value
 
-            ## 파일 슬롯 그리드.
             grid gui.file_slot_cols gui.file_slot_rows:
                 style_prefix "slot"
-
                 xalign 0.5
                 yalign 0.5
-
                 spacing gui.slot_spacing
 
                 for i in range(gui.file_slot_cols * gui.file_slot_rows):
-
                     $ slot = i + 1
 
                     button:
                         action FileAction(slot)
-
                         has vbox
 
                         add FileScreenshot(slot) xalign 0.5
@@ -723,16 +672,13 @@ screen file_slots(title):
 
                         key "save_delete" action FileDelete(slot)
 
-            ## 페이지 이동 버튼.
             vbox:
                 style_prefix "page"
-
                 xalign 0.5
                 yalign 1.0
 
                 hbox:
                     xalign 0.5
-
                     spacing gui.page_spacing
 
                     textbutton _("<") action FilePagePrevious()
@@ -744,7 +690,6 @@ screen file_slots(title):
                     if config.has_quicksave:
                         textbutton _("{#quick_page}퀵") action FilePage("quick")
 
-                    ## 범위(1, 10)는 1부터 9까지 숫자를 제공합니다.
                     for page in range(1, 10):
                         textbutton "[page]" action FilePage(page)
 
@@ -762,37 +707,154 @@ screen file_slots(title):
                             xalign 0.5
 
 
-style page_label is gui_label
-style page_label_text is gui_label_text
-style page_button is gui_button
-style page_button_text is gui_button_text
+screen save():
 
-style slot_button is gui_button
-style slot_button_text is gui_button_text
-style slot_time_text is slot_button_text
-style slot_name_text is slot_button_text
+    tag menu
 
-style page_label:
-    xpadding 75
-    ypadding 5
-    xalign 0.5
+    use file_slots(_("저장하기"))
 
-style page_label_text:
-    textalign 0.5
-    layout "subtitle"
-    hover_color gui.hover_color
+# React LoadPage 스타일의 Ren'Py Load Screen (5 slots + 우측 버튼 + 삭제 모달)
+screen load():
+    tag menu
 
-style page_button:
-    properties gui.button_properties("page_button")
+    on "show" action FilePage(1)
 
-style page_button_text:
-    properties gui.text_properties("page_button")
+    default selected_slot = None
+    default show_delete_modal = False
 
-style slot_button:
-    properties gui.button_properties("slot_button")
+    add Solid ("#ffffff")
+    add "images/background/flower-background.webp"
+    
 
-style slot_button_text:
-    properties gui.text_properties("slot_button")
+    text "불러오기":
+        xalign 0.5
+        yalign 0.12
+        size 72
+        color "#574747"
+        
+
+    vbox:
+        xpos 0.02
+        ypos 0.3
+        
+
+        for slotNum in range(1, 6):
+            $ has_save = FileLoadable(slotNum)
+
+            button:
+                xsize 1150
+                ysize 135
+                background None
+                action SetScreenVariable("selected_slot", slotNum)
+                at (load_slot_selected if selected_slot == slotNum else load_slot_idle)
+
+                fixed:
+                    add "images/buttons/choice_button.webp" xalign 0.0 yalign 0.5 xzoom 0.47 yzoom 0.40
+
+                    if has_save:
+                        hbox:
+                            xpos 40
+                            ypos 35
+                            spacing 16
+
+                            text FileSaveName(slotNum):
+                                size 34
+                                color "#574747"
+
+                        text FileTime(slotNum, format=_("{#file_time}%Y년 %m월 %d일 %H:%M"), empty=_("")):
+                            xpos 800
+                            ypos 45
+                            size 22
+                            color "#574747"
+                    else:
+                        text "-- 빈 슬롯 --":
+                            xalign 0.4
+                            yalign 0.5
+                            size 30
+                            color "#9a8989"
+
+    # 우측 버튼들
+
+    vbox:
+        xpos 1550
+        ypos 650
+        xanchor 0.2
+        yanchor 0.0
+        spacing 20
+
+        use nav_img_btn("images/buttons/loadgame-button.webp", If(
+                    selected_slot is None,
+                    Notify("먼저 슬롯을 선택하세요."),
+                    If(
+                        FileLoadable(selected_slot),
+                        FileLoad(selected_slot),
+                        Notify("빈 슬롯은 로드할 수 없습니다.")
+                    )
+                ))
+        use nav_img_btn("images/buttons/delete-button.webp", If(
+                    selected_slot is None,
+                    Notify("먼저 삭제할 슬롯을 선택하세요."),
+                    If(
+                        FileLoadable(selected_slot),
+                        SetScreenVariable("show_delete_modal", True),
+                        Notify("빈 슬롯은 삭제할 수 없습니다.")
+                    )
+                ))
+        use nav_img_btn("images/buttons/back_button.webp", Return())
+
+
+    # 삭제 모달
+    if show_delete_modal:
+        add Solid("#0008")
+
+        frame:
+            xalign 0.5
+            yalign 0.5
+            xsize 950
+            ysize 520
+            background Frame("images/UI/name_scroll.webp", 40, 40)
+
+            vbox:
+                xalign 0.5
+                yalign 0.5
+                spacing 22
+
+                text "[selected_slot]번 기록을 삭제하시겠습니까?":
+                    xalign 0.5
+                    size 34
+                    color "#574747"
+
+                text "삭제된 기록은 되돌릴 수 없습니다.":
+                    xalign 0.5
+                    size 24
+                    color "#574747"
+
+                hbox:
+                    xalign 0.5
+                    spacing 20
+
+                    textbutton "삭제":
+                        action [ FileDelete(selected_slot), 
+                        SetScreenVariable("selected_slot", None), 
+                        SetScreenVariable("show_delete_modal", False) ]
+
+                    textbutton "취소":
+                        action SetScreenVariable("show_delete_modal", False)
+
+
+
+# === UI Transform (React의 hover scale + 강조 느낌 재현) ===
+
+transform load_slot_idle:
+    zoom 1.0
+
+transform load_slot_selected:
+    zoom 1.03
+    matrixcolor BrightnessMatrix(0.05)
+
+transform load_btn_hover:
+    zoom 1.05
+    matrixcolor BrightnessMatrix(0.10)
 
 
 ## Preferences 스크린 #############################################################
@@ -1654,6 +1716,7 @@ screen world_history() :
 screen gallery_menu():
     tag menu
 
+    add Solid ("#ffffff")
     add "images/background/mountainBackground.webp"
     
 
@@ -1688,20 +1751,22 @@ screen gallery_menu():
     # 좌측 탭(리액트의 캐릭터 선택 버튼들)
     fixed:
         # 타이틀
-        text "갤러리" xalign 0.5 yalign 0.1
+        text "갤러리" xalign 0.5 yalign 0.1 color "#000000"
 
         vbox:
             xpos 0
             ypos 0.05
+            spacing 10
             
        
             for name, tab_img in GALLERY_TABS.items():
                 
-
                 use gallery_img_btn(
                     tab_img,
                     [ SetScreenVariable("selected_character", name),
                     SetScreenVariable("page", 0) ])
+
+    
 
 
         # 종이 배경(리액트의 blank-brown-paper2.webp)
