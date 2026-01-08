@@ -63,7 +63,7 @@ style vscrollbar:
 style slider:
     ysize gui.slider_size
     base_bar Frame("gui/slider/horizontal_[prefix_]bar.png", gui.slider_borders, tile=gui.slider_tile)
-    thumb "gui/slider/horizontal_[prefix_]thumb.png"
+    thumb Transform("gui/slider/horizontal_[prefix_]thumb.png", zoom=0.53)
 
 style vslider:
     xsize gui.slider_size
@@ -494,17 +494,16 @@ style main_menu_version:
 screen game_menu(title, scroll=None, yinitial=0.0, spacing=0, show_nav=True):
 
     style_prefix "game_menu"
-    add gui.game_menu_background
+    
+    
 
     frame:
         style "game_menu_outer_frame"
 
         hbox:
-
-            frame:
-                style "game_menu_navigation_frame"
-
-                if show_nav:
+            if show_nav:
+                frame:
+                    style "game_menu_navigation_frame"
                     use navigation
 
             frame:
@@ -546,7 +545,6 @@ style game_menu_outer_frame:
     bottom_padding 45
     top_padding 180
 
-    background "gui/overlay/game_menu.png"
 
 style game_menu_navigation_frame:
     xsize 420
@@ -567,13 +565,18 @@ style game_menu_side:
     spacing 15
 
 style game_menu_label:
-    xpos 75
+    xfill True
+    
     ysize 180
+    
 
 style game_menu_label_text:
-    size 75
+    size 60
     color gui.accent_color
-    yalign 0.5
+    xfill True
+    xalign 0.5
+    yalign 0.7
+    
 
 style return_button:
     xpos gui.navigation_xpos
@@ -863,85 +866,95 @@ transform load_btn_hover:
 ##
 ## https://www.renpy.org/doc/html/screen_special.html#preferences
 
-screen preferences():
+
+screen preferences(show_nav=False): 
 
     tag menu
+    add "images/background/chapter_background.webp" 
+    add "images/UI/name_scroll.webp" zoom 0.8 xalign 0.5 yalign 0.5 
 
-    use game_menu(_("환경설정"), scroll="viewport"):
+    use game_menu(_("환경설정",), scroll=None, show_nav=show_nav):
+            
+        fixed:
+            xfill True
+            yfill True
 
-        vbox:
+            vbox:   
+                xalign 0.58 
+                yalign 0.30     
+               
+                hbox:       
+                      
+                    box_wrap True
 
-            hbox:
-                box_wrap True
+                    if renpy.variant("pc") or renpy.variant("web"):
 
-                if renpy.variant("pc") or renpy.variant("web"):
+                        vbox:                                           
+                            style_prefix "radio"
+                            label _("화면 모드")
+                            textbutton _("창 화면") action Preference("display", "window")
+                            textbutton _("전체 화면") action Preference("display", "fullscreen")
+
+                        vbox:
+                            style_prefix "check"
+                            label _("넘기기")
+                            textbutton _("읽지 않은 지문") action Preference("skip", "toggle")
+                            textbutton _("선택지 이후") action Preference("after choices", "toggle")
+                            textbutton _("화면 전환 효과") action InvertSelected(Preference("transitions", "toggle"))
+
+                    ## "radio_pref" 나 "check_pref" 를 추가하여 그 외에도 환경설정
+                    ## 항목을 추가할 수 있습니다.
+
+                null height (2 * gui.pref_spacing)
+
+                hbox:
+                    xalign 0.0
+                    style_prefix "slider"
+                    box_wrap True
+                    
 
                     vbox:
-                        style_prefix "radio"
-                        label _("화면 모드")
-                        textbutton _("창 화면") action Preference("display", "window")
-                        textbutton _("전체 화면") action Preference("display", "fullscreen")
+                        
 
-                vbox:
-                    style_prefix "check"
-                    label _("넘기기")
-                    textbutton _("읽지 않은 지문") action Preference("skip", "toggle")
-                    textbutton _("선택지 이후") action Preference("after choices", "toggle")
-                    textbutton _("화면 전환 효과") action InvertSelected(Preference("transitions", "toggle"))
+                        label _("텍스트 속도") 
 
-                ## "radio_pref" 나 "check_pref" 를 추가하여 그 외에도 환경설정
-                ## 항목을 추가할 수 있습니다.
+                        bar value Preference("text speed")
 
-            null height (4 * gui.pref_spacing)
+                        label _("자동 진행 시간") 
+
+                        bar value Preference("auto-forward time")
+
+                    vbox:
+
+                        if config.has_music:
+                            label _("배경음 음량")
+
+                            hbox:
+                                bar value Preference("music volume")
+
+                        if config.has_sound:
+
+                            label _("효과음 음량")
+
+                            hbox:
+                                bar value Preference("sound volume")
+
+                                if config.sample_sound:
+                                    textbutton _("테스트") action Play("sound", config.sample_sound)
+
+
+                        
+                        if config.has_music or config.has_sound :
+                            null height gui.pref_spacing
+
+                            textbutton _("모두 음소거"):
+                                action Preference("all mute", "toggle")
+                                style "mute_all_button"
 
             hbox:
-                style_prefix "slider"
-                box_wrap True
-
-                vbox:
-
-                    label _("텍스트 속도")
-
-                    bar value Preference("text speed")
-
-                    label _("자동 진행 시간")
-
-                    bar value Preference("auto-forward time")
-
-                vbox:
-
-                    if config.has_music:
-                        label _("배경음 음량")
-
-                        hbox:
-                            bar value Preference("music volume")
-
-                    if config.has_sound:
-
-                        label _("효과음 음량")
-
-                        hbox:
-                            bar value Preference("sound volume")
-
-                            if config.sample_sound:
-                                textbutton _("테스트") action Play("sound", config.sample_sound)
-
-
-                    if config.has_voice:
-                        label _("음성 음량")
-
-                        hbox:
-                            bar value Preference("voice volume")
-
-                            if config.sample_voice:
-                                textbutton _("테스트") action Play("voice", config.sample_voice)
-
-                    if config.has_music or config.has_sound or config.has_voice:
-                        null height gui.pref_spacing
-
-                        textbutton _("모두 음소거"):
-                            action Preference("all mute", "toggle")
-                            style "mute_all_button"
+                xalign 0.5
+                yalign 0.95
+                use nav_img_btn("images/buttons/save_button.webp", Return())
 
 
 style pref_label is gui_label
@@ -970,15 +983,18 @@ style slider_pref_vbox is pref_vbox
 style mute_all_button is check_button
 style mute_all_button_text is check_button_text
 
+
+
 style pref_label:
     top_margin gui.pref_spacing
     bottom_margin 3
 
 style pref_label_text:
+
     yalign 1.0
 
 style pref_vbox:
-    xsize 338
+    xsize 480
 
 style radio_vbox:
     spacing gui.pref_button_spacing
@@ -1001,18 +1017,21 @@ style check_button_text:
     properties gui.text_properties("check_button")
 
 style slider_slider:
-    xsize 525
+    xsize 350
+    ysize 20
 
 style slider_button:
     properties gui.button_properties("slider_button")
     yalign 0.5
     left_margin 15
+    
 
 style slider_button_text:
     properties gui.text_properties("slider_button")
 
 style slider_vbox:
-    xsize 675
+    xsize 480
+    
 
 
 ## history 스크린 #################################################################
