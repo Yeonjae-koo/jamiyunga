@@ -121,6 +121,10 @@ transform gallery_box:
 ## 게임내 스크린
 ################################################################################
 
+##회상장면
+screen flashback_filter():
+    zorder 200
+    add Solid("#F6D36A66") 
 
 ## Say 스크린 #####################################################################
 ##
@@ -134,24 +138,37 @@ transform gallery_box:
 ## https://www.renpy.org/doc/html/screen_special.html#say
 
 screen say(who, what):
+    $ side_image = SideImage() 
 
     window:
         id "window"
 
-        if who is not None:
+        hbox:
+            xfill True
+            spacing 20
 
-            window:
-                id "namebox"
-                style "namebox"
-                text who id "who"
+            # 왼쪽 영역은 항상 존재시키고, 이미지가 있을 때만 add
+            fixed:
+                xsize 240
+                yfill True
 
-        text what id "what"
+                if (not renpy.variant("small")) and side_image:
+                    add side_image xalign 0.0 yalign 1.0
+
+            vbox:
+                xfill True
+                spacing 8
+
+                if who is not None:
+                    window:
+                        id "namebox"
+                        style "namebox"
+                        xfill True
+                        text who id "who"
+
+                text what id "what"
 
 
-    ## 사이드 이미지가 있는 경우 글자 위에 표시합니다. 휴대폰 환경에서는 보이지
-    ## 않습니다.
-    if not renpy.variant("small"):
-        add SideImage() xalign 0.0 yalign 1.0
 
 
 ## Character 객체를 통해 스타일을 지정할 수 있도록 namebox를 사용할 수 있게 만듭
@@ -177,27 +194,22 @@ style window:
     background Image("gui/textbox.png", xalign=0.5, yalign=1.0)
 
 style namebox:
-    xpos gui.name_xpos
-    xanchor gui.name_xalign
-    xsize gui.namebox_width
-    ypos gui.name_ypos
-    ysize gui.namebox_height
+    xfill True
 
-    background Frame("gui/namebox.png", gui.namebox_borders, tile=gui.namebox_tile, xalign=gui.name_xalign)
+    background Frame("gui/namebox.png", gui.namebox_borders, tile=gui.namebox_tile)
     padding gui.namebox_borders.padding
+ 
 
 style say_label:
     properties gui.text_properties("name", accent=True)
-    xalign gui.name_xalign
-    yalign 0.5
+    
+    textalign 0.5
+    yalign 0.3
 
 style say_dialogue:
+
     properties gui.text_properties("dialogue")
-
-    xpos gui.dialogue_xpos
-    xsize gui.dialogue_width
-    ypos gui.dialogue_ypos
-
+    xfill True
     adjust_spacing False
 
 ## Input 스크린 ###################################################################
@@ -255,17 +267,29 @@ style choice_button is button
 style choice_button_text is button_text
 
 style choice_vbox:
-    xalign 0.5
-    ypos 405
-    yanchor 0.5
+    xalign 0.06
+    yalign 0.5
+    
+    
 
-    spacing gui.choice_spacing
+    spacing 0.3
 
 style choice_button is default:
-    properties gui.button_properties("choice_button")
+
+    xsize 1000
+    ysize 160
+    background Frame ("images/buttons/choice_button.webp", 30, 30)
+    hover_background Frame(Transform("images/buttons/choice_button.webp", matrixcolor=BrightnessMatrix(0.08)), 30, 30)
+    insensitive_background Frame(Transform("images/buttons/choice_button.webp", matrixcolor=BrightnessMatrix(-0.15)), 30, 30)
+
+    padding (40, 18)
 
 style choice_button_text is default:
     properties gui.text_properties("choice_button")
+
+    xalign 0.5
+    yalign 0.5
+    textalign 0.5
 
 
 ## Quick Menu 스크린 ##############################################################
@@ -765,15 +789,15 @@ screen load():
                                 color "#574747"
 
                         text FileTime(slotNum, format=_("{#file_time}%Y년 %m월 %d일 %H:%M"), empty=_("")):
-                            xpos 800
-                            ypos 45
-                            size 22
+                            xalign 0.4
+                            yalign 0.5
+                            size 24
                             color "#574747"
                     else:
                         text "-- 빈 슬롯 --":
                             xalign 0.4
                             yalign 0.5
-                            size 30
+                            size 24
                             color "#9a8989"
 
     # 우측 버튼들

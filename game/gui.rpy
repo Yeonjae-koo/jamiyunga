@@ -29,7 +29,7 @@ define gui.accent_color = '#1f1f1f'
 
 ## 텍스트 버튼(text button)이 선택(selected)됐거나 커서를 올리지(hovered) 않았을
 ## 때 사용됩니다.
-define gui.idle_color = '#888888'
+define gui.idle_color = '#343434'
 
 ## 작은(small) 색상은 같은 효과를 내기 위해 더 밝거나 어두워야 하는 작은 글자에
 ## 사용됩니다.
@@ -41,7 +41,7 @@ define gui.hover_color = '#66c1e0'
 ## 텍스트 버튼(text button)에 선택됐지만(selected) 포커스되지(focused) 않았을 때
 ## 사용됩니다. 버튼(button)은 현재 화면이거나 설정값인 경우 선택됨(selected)이
 ## 됩니다.
-define gui.selected_color = '#ffffff'
+define gui.selected_color = '#b74c4c'
 
 ## 텍스트 버튼(text button)이 선택되지(selected) 않았을 때 사용됩니다.
 define gui.insensitive_color = '#8888887f'
@@ -53,7 +53,7 @@ define gui.hover_muted_color = '#005b7a'
 
 ## 대사(dialogue)와 선택지(menu choice)의 글자에서 사용됩니다.
 define gui.text_color = '#ffffff'
-define gui.interface_text_color = '#ffffff'
+define gui.interface_text_color = '#823131'
 
 
 ## 글자와 글자 크기 ###################################################################
@@ -68,7 +68,7 @@ define gui.name_text_font = "SourceHanSansLite.ttf"
 define gui.interface_text_font = "SourceHanSansLite.ttf"
 
 ## 일반 대사의 글자 크기입니다.
-define gui.text_size = 33
+define gui.text_size = 24
 
 ## 캐릭터 이름의 글자 크기입니다.
 define gui.name_text_size = 45
@@ -210,8 +210,8 @@ define gui.choice_button_borders = Borders(150, 8, 150, 8)
 define gui.choice_button_text_font = gui.text_font
 define gui.choice_button_text_size = gui.text_size
 define gui.choice_button_text_xalign = 0.5
-define gui.choice_button_text_idle_color = '#888888'
-define gui.choice_button_text_hover_color = "#ffffff"
+define gui.choice_button_text_idle_color = '#292929'
+define gui.choice_button_text_hover_color = "#3e3e3e"
 define gui.choice_button_text_insensitive_color = '#8888887f'
 
 
