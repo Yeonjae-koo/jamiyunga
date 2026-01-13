@@ -3,6 +3,10 @@ game/cache/
 game/saves/
 **/__pycache__/
 
+# Ren'Py compiled files
+*.rpyc
+*.rpymc
+
 # ---- Builds / dist ----
 dist/
 build/
