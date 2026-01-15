@@ -145,7 +145,7 @@ screen say(who, what):
 
         hbox:
             xfill True
-            spacing 20
+            spacing 30
 
             # 왼쪽 영역은 항상 존재시키고, 이미지가 있을 때만 add
             fixed:
@@ -157,13 +157,15 @@ screen say(who, what):
 
             vbox:
                 xfill True
-                spacing 8
+                spacing 30
 
                 if who is not None:
                     window:
-                        id "namebox"
+                        
+                        id "namebox" 
                         style "namebox"
                         xfill True
+                        yoffset 20 
                         text who id "who"
 
                 text what id "what"

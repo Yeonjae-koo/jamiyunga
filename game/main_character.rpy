@@ -1,5 +1,5 @@
 #캐릭터 나레이션 정의
-define princess = Character('공주', color="#e991ff", image="princess")
+define princess = Character('장희공주', color="#e991ff", image="princess")
 define back = Character('백담우', color="#566e92")
 define anonymous = Character('???', color="#ffe989" )
 define Jinhyo = Character('진효', color="#ffe989" )

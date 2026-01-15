@@ -57,18 +57,22 @@ define gui.interface_text_color = '#823131'
 
 
 ## 글자와 글자 크기 ###################################################################
+# fonts/Jaemin_v2.otf
+# fonts/HS봄바람체2.0.otf
+# fonts/RIDIBatang.otf
+
 
 ## 인-게임 글자에 사용됩니다.
-define gui.text_font = "SourceHanSansLite.ttf"
+define gui.text_font = "fonts/RIDIBatang.otf"
 
 ## 캐릭터의 이름에 사용됩니다.
-define gui.name_text_font = "SourceHanSansLite.ttf"
+define gui.name_text_font = "fonts/솔뫼 김대건OTF Medium.otf"
 
 ## 인터페이스에 사용됩니다.
-define gui.interface_text_font = "SourceHanSansLite.ttf"
+define gui.interface_text_font = "fonts/헬스셋고딕Light.otf"
 
 ## 일반 대사의 글자 크기입니다.
-define gui.text_size = 24
+define gui.text_size = 20
 
 ## 캐릭터 이름의 글자 크기입니다.
 define gui.name_text_size = 45
