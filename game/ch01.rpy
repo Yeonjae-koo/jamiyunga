@@ -191,7 +191,7 @@ label ch01:
     princess "(백담우는 내 손을 힘껏 붙잡고 달리기 시작했다.)"
     princess "(청월국이 위태롭다는 건 알고 있었다. 태휘국이 파죽지세로 쳐들어오는 것도 알고 있었다.)"
     princess "(하지만, 하지만 청월국은 정말 이렇게 멸망하는 건가...?)"
-    show back at ShowCharacter with dissolve
+    show backSword at ShowCharacter with dissolve
     back "...님!" 
     back "공주님!"
     princess "...!"
@@ -202,7 +202,7 @@ label ch01:
     
     # play sound "sword_swing.mp3" # 효과음 : 칼 휘두르는 소리
     princess "(백담우는 순식간에 검을 휘둘러 날아드는 화살 세 발을 단숨에 쳐냈다.)"
-    show back at ShowCharacter with dissolve
+    show backSword at ShowCharacter with dissolve
     back "...! 위험합니다!"
     princess "(화살 하나가 나를 향해 날아오는 순간, 백담우가 나를 감싸안았다.)"
 
@@ -256,7 +256,7 @@ label ch01:
     princess "......"
     anonymous "아, 제 소개가 늦었군요." 
     anonymous "처음 뵙겠습니다." 
-    show Jinhyo at ShowCharacter with dissolve
+    show Jinhyo at JinhyoShowCharacter with dissolve
     Jinhyo "저는 태휘국의 황태자, 진효라고 합니다."
     princess "(...황태자? 여기는 아무것도 없는 외딴 숲이다. 황태자가 왜 이런 곳에...?)" 
     princess "(...그것보다도 추격대와 함께 있다는건, 처음부터 나를 노리고 왔다는 뜻인데— 황태자까지 직접 나설 필요가 있었을까...?)"
@@ -267,13 +267,13 @@ label ch01:
     taehwi_general "황태자 전하께 예를 갖춰라, 장희공주!"
     show back at RightCharacter with dissolve
     back "무엄하다!"
-    show Jinhyo at LeftCharacter with dissolve
+    show Jinhyo at JinhyoLeftCharacter with dissolve
     Jinhyo "...그만."
     hide Jinhyo 
     hide back 
     with dissolve
     princess "(황태자는 오른손을 들어 태휘군 장군을 제지했다.)"
-    show Jinhyo at ShowCharacter with dissolve
+    show Jinhyo at JinhyoShowCharacter with dissolve
     Jinhyo "내가 공주님을 예우하고 있는데, 황 장군의 태도는 지나치군."
     taehwi_general "하오나 전하—"
     Jinhyo "......"
@@ -308,7 +308,7 @@ label ch01:
 
     # [배경 : 화림헌 외부 / 시간 : 낮]
     scene hwarimhun with scene_fade
-    show Jinhyo at ShowCharacter with dissolve
+    show Jinhyo at JinhyoShowCharacter with dissolve
     Jinhyo "이 쪽입니다, 공주님." 
     Jinhyo "화림헌은 본래, 귀한 인연을 맞이할 때에만 문을 여는 전각입니다."
     princess "(눈 앞에 펼쳐진 풍경은 눈부시게 아름다웠다. 하지만 그 고요함이 오히려 소름 끼쳤다.)" 
@@ -325,7 +325,7 @@ label ch01:
     back "저는 공주님 곁을 한시도 떠날 수 없습니다."
     hide back with dissolve
     princess "(한 달간의 도피 생활과 제대로 아물지도 않은 상처 때문인지 백담우의 안색은 종잇장처럼 창백했다.)"
-    show Jinhyo at ShowCharacter with dissolve
+    show Jinhyo at JinhyoShowCharacter with dissolve
     Jinhyo "...... " 
     Jinhyo "그렇게 하세요. 그대가 공주님 곁에 있는 것, 나쁘지 않겠지요." 
     Jinhyo "마음 둘 곳이 있어야 공주님도 이 곳에 쉽게 적응하실 테니."
@@ -618,7 +618,7 @@ label ch01:
     hide back with dissolve
     princess "(나는 백담우를 물러나게 하고 조심스럽게 진효에게 다가갔다.)" 
     princess "(진효가 먹이를 뿌리자, 수면 아래서 비단결처럼 매끄러운 잉어들이 붉고 황금빛 그림자를 그리며 모여들었다.)"
-    show Jinhyo at ShowCharacter with dissolve
+    show Jinhyo at JinhyoRightCharacter with dissolve
     Jinhyo "잠이 잘 오지 않으셨나 봅니다. 무슨 고민이라도 있으신지요."
     princess "전하, 이 이른 새벽에 화림헌에는 무슨 일이십니까."
     Jinhyo "이 녀석들이 배가 고플 시간이라서요. 낮에 오면 공주님이 혹여 불편해하실까봐 일부러 시간을 피한 것인데, 결국 마주치고 말았군요."

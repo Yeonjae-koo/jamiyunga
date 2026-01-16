@@ -5,9 +5,9 @@ define suha1 = Character('수하1', color="#333333")
 define suha2 = Character('수하2', color="#333333")
 
 # 추가 배경 정의
-image ship_cabin = "images/background/선실.webp"
+image ship_cabin = "images/background/화야진_처소.webp"
 image ship_deck = "images/background/갑판.webp"
-image storage_chaos = "images/background/창고_엉망.webp"
+image storage_chaos = "images/background/창고_난장판.webp"
 image forest_night = "images/background/숲_밤.webp"
 
 label ch03:
@@ -50,7 +50,7 @@ label ch03:
     # play sound "running_footsteps.mp3" # 효과음 주석 처리
     back "공주님!"
     
-    show back at ShowCharacter with dissolve
+    show backNerveous at backShowCharacter with dissolve
     princess "(백담우였다. 그는 숨을 몰아쉬며 창고 안으로 들이닥쳤다.)"
     princess "(헝클어진 머리카락과 땀에 젖은 얼굴을 보니, 내가 사라진 것을 알고 미친 듯이 궁 안을 뒤지고 다닌 모양이었다.)"
     back "겁도 없이 이 시간에 혼자 창고로—"
@@ -100,7 +100,7 @@ label ch03:
 
     princess "(폐문을 따라 나오니 핏자국은 숲 깊은 곳으로 이어져 있었다.)"
     princess "(한밤 중의 숲은 기괴할 정도로 고요했다. 풀벌레 소리조차 들리지 않는 정적 속에, 오직 우리의 거친 숨소리만이 날카롭게 울렸다.)"
-    
+    show backNerveous at backShowCharacter with dissolve
     back "...공주님, 제 뒤로 오십시오."
     back "뭔가 이상합니다. ...살기가 느껴집니다."
     
@@ -117,16 +117,18 @@ label ch03:
     princess "무슨 일이야!"
     back "흔적이 너무 친절해요. 마치... 우리가 쫓아오기를 간절히 바라는 것처럼 말입니다."
     back "이건 함정입니다...!"
-    
+    hide backNerveous with dissolve
+    with vpunch
     princess "(그때였다. 머리 위를 가리고 있던 울창한 나뭇가지들이 비명 같은 소리를 내며 흔들렸다.)"
     princess "(그림자인 줄 알았던 어둠이 돌연 살기를 띤 형체로 변해 솟아올랐다. 검은 복면을 쓴 자들이 사방에서 숲을 좁혀오기 시작했다.)"
     princess "(달빛조차 닿지 않는 어둠 속에서, 오직 그들의 안광만이 번뜩였다.)"
     
+    show backSword at ShowCharacter with dissolve
     back "...!"
     princess "(백담우가 번개 같은 속도로 검을 뽑아 들었다. 서늘한 검신이 밤바람을 가르며 내 앞을 가로막았다.)"
     back "웬 놈이냐!"
     
-    show jagak1 at ShowCharacter with dissolve
+    
     jagak1 "......"
     princess "(그들은 대답 대신 백담우를 향해 검을 휘두르며 동시에 달려들었다.)"
 
@@ -143,7 +145,7 @@ label ch03:
     princess "(백담우는 비명 같은 내 외침에도 고개를 돌리지 않았다. 그는 피 섞인 침을 내뱉으며 검을 고쳐 쥐었다.)"
     back "제 뒤에 계십시오... 절대로, 제 그림자 밖으로 나오시면 안 됩니다!"
     princess "(그의 뒷모습이 오늘따라 유난히 작아 보였다. 저러다 정말 백담우가 죽을지도 모른다는 공포가 밀려오던 그 찰나였다.)"
-    
+    hide backSword with dissolve
     princess "...!"
     princess "(갑작스레 뒤쪽에서 나타난 누군가가 내 코와 입을 강하게 틀어막았다.)"
     princess "(이상하리만큼 달콤하고 진득한 향기가 폐부 깊숙이 박혀왔다. 진효의 향로에서 나던 것과 닮았으나, 훨씬 더 독하고 비릿한 냄새였다.)"
@@ -165,7 +167,7 @@ label ch03:
     princess "하지만 손가락 하나, 까딱할 힘조차 남아있지 않았다."
     princess "나는 그렇게 의식을 잃고 말았다.)"
 
-    # scene black with fade # 화면 암전
+    scene black with fade # 화면 암전
 
     # [배경 : 잘 꾸며진 방 (선실) / 시간 : 밤]
     scene ship_cabin with scene_fade

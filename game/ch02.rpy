@@ -2,6 +2,9 @@
 # 배경 정의 추가 (이미지 경로는 프로젝트 상황에 맞게 수정 필요)
 image storage_room = "images/background/창고.webp"
 
+# 캐릭터 이미지
+image backFlower = Transform("images/character/백담우꽃.webp", zoom=0.34 )
+
 label ch02:
 
     # [배경 : 화림헌 내부 / 시간 : 낮]
@@ -17,7 +20,7 @@ label ch02:
     back "또 창고에 가시려고요?"
     
     princess "...!"
-    show back at ShowCharacter with dissolve
+    show back2 at ShowCharacter with dissolve
     princess "(뒤에서 불쑥 백담우가 나타났다. 내가 그러지 말라고 어릴 때부터 몇 번이고 말했던거 같은데...)"
     back "저랑 함께 가시죠."
     back "어제보다 열은 내린 모양입니다만, 그 자의 눈빛이 예사롭지 않았습니다."
@@ -367,11 +370,13 @@ label ch02:
     back "......"
     princess "(불쾌함이 잠시 그의 눈을 스쳤으나, 그는 이내 감정을 억누르듯 눈을 질끈 감았다 떴다.)"
     back "향이 너무 독합니다. 머리가 아프실 텐데… 왜 그냥 두고 계십니까."
+    hide back with dissolve
 
     princess "...치울 기운도 없어서. 오늘 좀 피곤하네."
     princess "(백담우는 말없이 향로의 뚜껑을 덮어 구석으로 밀어두었다. 그러고는 등 뒤에 숨기고 있던 손을 천천히 내밀었다.)"
     princess "(급히 씻어낸 듯했으나, 붉게 부어오르고 짓무른 손가락 마디와 손등의 생채기까지는 감추지 못했다.)"
 
+    show backFlower at ShowCharacter with dissolve
     back "북쪽 성벽 끝, 가장 높은 절벽 틈에 이게 피어 있었습니다. 예전에 영나성 뒷산에서 공주님이 좋아하시던 그 꽃과... 아주 닮았더라고요."
 
     princess "(그의 손에 들린 것은 작고 하얀 들꽃 몇 송이었다. 화림헌의 화려한 화단에서는 절대 볼 수 없는, 거칠고 척박한 곳에서만 피는 강인한 꽃.)"
@@ -390,11 +395,11 @@ label ch02:
     princess "(그는 꽃을 내밀면서도, 내 안색을 살피는 것이 아니라 마치 내가 살아있는지 확인하려는 듯 내 가슴팍의 오르내림을 집요하게 쫓았다.)"
     
     back "아! 잠시만 기다려주세요."
-    
-    hide back with dissolve
+    hide backFlower with dissolve
+    show back at backShowCharacter with dissolve
     princess "(뭔가 생각난듯 방을 나간 백담우는 곧 따뜻한 물이 담긴 대야와 수건을 들고 들어왔다.)"
     
-    show back at ShowCharacter with dissolve
+
     princess "(그리고는 대야에서 수건을 꺼내어 적당히 짠 뒤, 내 손을 조심스럽게 감싸 쥐었다.)"
     back "손이 따뜻해지면, 마음도 한결 편해지실 겁니다."
     
