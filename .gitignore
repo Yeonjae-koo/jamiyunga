@@ -37,6 +37,7 @@ venv/
 env/
 
 # Python artifacts
+*.rpyc
 *.pyc
 *.pyo
 *.pyd

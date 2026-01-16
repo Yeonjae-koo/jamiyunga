@@ -313,10 +313,9 @@ screen quick_menu():
             textbutton _("대사록") action ShowMenu('history')
             textbutton _("넘기기") action Skip() alternate Skip(fast=True, confirm=True)
             textbutton _("자동진행") action Preference("auto-forward", "toggle")
-            textbutton _("저장하기") action ShowMenu('save')
-            textbutton _("Q.저장하기") action QuickSave()
-            textbutton _("Q.불러오기") action QuickLoad()
+            textbutton _("저장하기") action [ Function(save_to_loadpage_slot), Notify(_("저장되었습니다.")) ]
             textbutton _("설정") action ShowMenu('preferences')
+            textbutton _("나가기") action MainMenu()
 
 
 ## 플레이어가 UI(스크린)을 일부러 숨기지 않는 한 퀵메뉴가 게임 내에 오버레이로
@@ -648,99 +647,38 @@ style about_label_text:
 
 
 ## Load 그리고 Save 스크린 ###########################################################
-##
-## 이 스크린은 세이브/로드에 쓰입니다. 거의 동일하기 때문에, file_slots 스크린을
-## 불러와서 씁니다.
-##
-## https://www.renpy.org/doc/html/screen_special.html#save https://
-## www.renpy.org/doc/html/screen_special.html#load
 
-screen file_slots(title, show_nav=False):
+#키우회막음 
+init python:
+    if "quick_load" in config.keymap:
+        config.keymap["quick_load"] = []
 
-    default page_name_value = FilePageNameInputValue(
-        pattern=_("{} 페이지"),
-        auto=_("자동 세이브"),
-        quick=_("퀵세이브")
-    )
+    for k in ["load", "screen_load", "menu_load"]:
+        if k in config.keymap:
+            config.keymap[k] = []
 
-    use game_menu(title, show_nav=show_nav):
+default persistent.last_save_slot = 0
 
-        fixed:
-            order_reverse True
+init python:
+    def save_to_loadpage_slot():
+        # 항상 load 화면이 사용하는 페이지(1)로 맞춤
+        renpy.run(FilePage(1))
 
-            button:
-                style "page_label"
-                key_events True
-                xalign 0.5
-                action page_name_value.Toggle()
+        # 1~5 중 빈 슬롯 우선
+        slot = None
+        for s in range(1, 6):
+            if not FileLoadable(s):
+                slot = s
+                break
 
-                input:
-                    style "page_label_text"
-                    value page_name_value
+        # 빈 슬롯이 없으면 1~5 순환 덮어쓰기
+        if slot is None:
+            slot = (persistent.last_save_slot % 5) + 1
 
-            grid gui.file_slot_cols gui.file_slot_rows:
-                style_prefix "slot"
-                xalign 0.5
-                yalign 0.5
-                spacing gui.slot_spacing
+        persistent.last_save_slot = slot
 
-                for i in range(gui.file_slot_cols * gui.file_slot_rows):
-                    $ slot = i + 1
-
-                    button:
-                        action FileAction(slot)
-                        has vbox
-
-                        add FileScreenshot(slot) xalign 0.5
-
-                        text FileTime(slot, format=_("{#file_time}%A, %B %d %Y, %H:%M"), empty=_("빈 슬롯")):
-                            style "slot_time_text"
-
-                        text FileSaveName(slot):
-                            style "slot_name_text"
-
-                        key "save_delete" action FileDelete(slot)
-
-            vbox:
-                style_prefix "page"
-                xalign 0.5
-                yalign 1.0
-
-                hbox:
-                    xalign 0.5
-                    spacing gui.page_spacing
-
-                    textbutton _("<") action FilePagePrevious()
-                    key "save_page_prev" action FilePagePrevious()
-
-                    if config.has_autosave:
-                        textbutton _("{#auto_page}자동") action FilePage("auto")
-
-                    if config.has_quicksave:
-                        textbutton _("{#quick_page}퀵") action FilePage("quick")
-
-                    for page in range(1, 10):
-                        textbutton "[page]" action FilePage(page)
-
-                    textbutton _(">") action FilePageNext()
-                    key "save_page_next" action FilePageNext()
-
-                if config.has_sync:
-                    if CurrentScreenName() == "save":
-                        textbutton _("동기화 업로드"):
-                            action UploadSync()
-                            xalign 0.5
-                    else:
-                        textbutton _("동기화 다운로드"):
-                            action DownloadSync()
-                            xalign 0.5
-
-
-screen save():
-
-    tag menu
-
-    use file_slots(_("저장하기"))
+        # 실제 저장 실행 (중요: 이게 저장임)
+        renpy.run(FileSave(slot))
 
 # React LoadPage 스타일의 Ren'Py Load Screen (5 slots + 우측 버튼 + 삭제 모달)
 screen load():
