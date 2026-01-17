@@ -52,6 +52,8 @@ define MG2_MOON_128      = "minigames/game2/images/moon_128.webp"
 # sfx (game2)
 define MG2_SFX_COIN     = "minigames/game2/sounds/coin.mp3"
 define MG2_SFX_BOMB     = "minigames/game2/sounds/bomb.mp3"
+define MG2_SFX_CLEAR    = "minigames/common/sound/clear.mp3"
+define MG2_SFX_FAIL     = "minigames/common/sound/fail.mp3"
 
 
 # ============================================================================#
@@ -103,7 +105,7 @@ screen mg2_main():
             text "월하의 인연 수집":
                 font MG2_FONT
                 size 100
-                color "#EDE7FF"
+                color "#C1D2FF"
                 outlines [ (7, "#000000", 0, 0) ]
                 xalign 0.5
                 yalign 0.22
@@ -937,6 +939,8 @@ screen mg2_result():
     zorder 200
 
     default hover_proceed = False
+
+    on "show" action If((mg2_dagger == 0 and mg2_pendant == 0 and mg2_chess == 0), true=Play("sound", MG2_SFX_FAIL), false=Play("sound", MG2_SFX_CLEAR))
 
     add MG2_BG_BG:
         fit "cover"
