@@ -6,6 +6,14 @@
 # - Runner Play (Parallax + Player Anim + Obstacles + Timer + Result)
 ##############################################################################
 
+# ---------- CHANNELS ----------
+# (BGM은 나중에 추가, 지금은 sfx / ui / result만 분리)
+init -10 python:
+    renpy.music.register_channel("sfx", "sfx", loop=False)
+    renpy.music.register_channel("ui", "sfx", loop=False)
+    renpy.music.register_channel("result", "sfx", loop=False)
+
+
 # ---------- ASSETS (MAIN/HELP) ----------
 define MG1_BG_BG        = "minigames/game1/images/bg_game1_bg.webp"
 define MG1_BTN_IDLE     = "minigames/common/images/button_idle.webp"
@@ -70,7 +78,7 @@ screen mg1_main():
             text "몽진의 밤":
                 font MG1_FONT
                 size 110
-                color "#E53935"
+                color "#B3261E"
                 outlines [ (7, "#000000", 0, 0) ]
                 xalign 0.5
                 yalign 0.22
@@ -90,7 +98,7 @@ screen mg1_main():
                     imagebutton:
                         idle Transform(MG1_BTN_IDLE,  zoom=MG1_BTN_ZOOM)
                         hover Transform(MG1_BTN_HOVER, zoom=MG1_BTN_ZOOM)
-                        hovered [ Play("sound", SFX_UI_HOVER), SetScreenVariable("hover_help", True) ]
+                        hovered [ Play("ui", SFX_UI_HOVER), SetScreenVariable("hover_help", True) ]
                         unhovered SetScreenVariable("hover_help", False)
                         action Jump("minigame1_help")
                         xalign 0.5
@@ -112,7 +120,7 @@ screen mg1_main():
                     imagebutton:
                         idle Transform(MG1_BTN_IDLE,  zoom=MG1_BTN_ZOOM)
                         hover Transform(MG1_BTN_HOVER, zoom=MG1_BTN_ZOOM)
-                        hovered [ Play("sound", SFX_UI_HOVER), SetScreenVariable("hover_start", True) ]
+                        hovered [ Play("ui", SFX_UI_HOVER), SetScreenVariable("hover_start", True) ]
                         unhovered SetScreenVariable("hover_start", False)
 
                         action Jump("minigame1_play")
@@ -158,7 +166,7 @@ screen mg1_help():
                 text_size 32
                 text_color "#FFFFFF"
                 text_hover_color "#DDDDDD"
-                hovered Play("sound", SFX_UI_HOVER)
+                hovered Play("ui", SFX_UI_HOVER)
                 action Jump("minigame1_main")
                 xalign 0.985
                 yalign 0.02
@@ -220,7 +228,7 @@ screen mg1_help():
                 imagebutton:
                     idle Transform(MG1_BTN_IDLE,  zoom=MG1_BTN_ZOOM)
                     hover Transform(MG1_BTN_HOVER, zoom=MG1_BTN_ZOOM)
-                    hovered [ Play("sound", SFX_UI_HOVER), SetScreenVariable("hover_help_start", True) ]
+                    hovered [ Play("ui", SFX_UI_HOVER), SetScreenVariable("hover_help_start", True) ]
                     unhovered SetScreenVariable("hover_help_start", False)
 
                     action Jump("minigame1_play")
@@ -273,6 +281,7 @@ define SFX_MG1_CRASH = "minigames/game1/sound/crash.mp3"
 define SFX_UI_HOVER = "minigames/common/sound/hover.mp3"
 define SFX_MG1_WIN   = "minigames/common/sound/win.mp3"
 define SFX_MG1_CLEAR = "minigames/common/sound/clear.mp3"
+define SFX_MG1_FAIL = "minigames/common/sound/fail.mp3"
 
 # HUD UI (COMMON)
 define MG1_UI_SCROLL  = "minigames/common/images/ui_scroll_short.webp"
@@ -376,9 +385,6 @@ default mg1_jump_i = 0
 default mg1_slide_phase = "none"
 default mg1_slide_t = 0.0
 
-# 디버그 오버레이 토글
-default mg1_debug = False
-
 
 # ---------- PYTHON ----------
 init python:
@@ -415,7 +421,7 @@ init python:
         y = store.mg1_player_y + int(MG1_RUN_HIT_Y_OFFSET * z)
         return (x, y, int(MG1_RUN_HIT_W * z), int(MG1_RUN_HIT_H * z))
 
-    # ✅ 실제 이미지 크기 기반 + 상단 bottom-left 기준 히트박스
+    # 실제 이미지 크기 기반 + 상단 bottom-left 기준 히트박스
     def mg1_spawn():
         lane = random.choice(["top", "bottom"])
 
@@ -460,13 +466,11 @@ init python:
             "w": hit_w,
             "h": hit_h,
 
-            "img_w": img_w,   # 디버그용(이미지 경계)
-            "img_h": img_h,
         })
 
     def mg1_do_jump():
         if store.mg1_state == "run":
-            renpy.sound.play(SFX_MG1_JUMP)
+            renpy.music.play(SFX_MG1_JUMP, channel="sfx")
             store.mg1_state = "jump"
             store.mg1_vy = MG1_JUMP_V0
             store.mg1_jump_i = 0
@@ -477,7 +481,7 @@ init python:
             return
 
         if store.mg1_state != "slide":
-            renpy.sound.play(SFX_MG1_SLIDE)
+            renpy.music.play(SFX_MG1_SLIDE, channel="sfx")
             store.mg1_state = "slide"
 
         store.mg1_slide_phase = "enter"
@@ -557,7 +561,7 @@ init python:
             o["x"] -= MG1_OBS_SPEED * dt
             if o["x"] > -300:
                 if store.mg1_invuln <= 0 and mg1_aabb(px, py, pw, ph, o["x"], o["y"], o["w"], o["h"]):
-                    renpy.sound.play(SFX_MG1_CRASH)
+                    renpy.music.play(SFX_MG1_CRASH, channel="sfx")
                     store.mg1_life -= 1
                     store.mg1_invuln = 0.8
                 else:
@@ -615,9 +619,6 @@ screen mg1_game():
 
     if mg1_show_result:
         timer 0.01 action Return()
-
-    # 디버그 토글
-    key "K_F1" action ToggleVariable("mg1_debug")
 
     # 안정적인 60fps 업데이트
     if not mg1_show_result:
@@ -710,25 +711,6 @@ screen mg1_game():
                 $ slide_img = MG1_SLIDE2
             add Transform(slide_img, zoom=MG1_Z_PLAYER) xpos MG1_PLAYER_X ypos int(mg1_player_y + MG1_SLIDE_Y_EXTRA + 55)
 
-    # -----------------------------
-    # DEBUG HITBOX OVERLAY
-    # -----------------------------
-    if mg1_debug:
-        $ _px, _py, _pw, _ph = mg1_player_hitbox()
-        add Solid("#00FF0066") xpos int(_px) ypos int(_py) xsize int(_pw) ysize int(_ph)
-
-        for _o in mg1_obstacles:
-            add Solid("#FF000066") xpos int(_o["x"]) ypos int(_o["y"]) xsize int(_o["w"]) ysize int(_o["h"])
-
-            $ _imgy = _o.get("img_y", _o["y"])
-            $ _iw = _o.get("img_w", _o["w"])
-            $ _ih = _o.get("img_h", _o["h"])
-            add Solid("#0000FF33") xpos int(_o["x"]) ypos int(_imgy) xsize int(_iw) ysize int(_ih)
-
-            $ _lane = _o.get("lane", "?")
-            text "[_lane]" xpos int(_o["x"]) ypos int(_imgy) color "#FFFFFF" size 18 outlines [ (2, "#000000", 0, 0) ]
-
-        text "DEBUG(F1): ON  GREEN=PLAYER  RED=HITBOX  BLUE=IMAGE" xpos 40 ypos 110 color "#00FF00"
 
 # ---------- RESULT ----------
 screen mg1_result_popup():
@@ -743,8 +725,13 @@ screen mg1_result_popup():
     if mg1_result != "success":
         $ _reward = 0
 
-    $ _result_sfx = (SFX_MG1_WIN if _reward == 5 else SFX_MG1_CLEAR)
-    on "show" action Play("sound", _result_sfx)
+    $ _result_sfx = (
+        SFX_MG1_WIN   if _reward == 5 else
+        SFX_MG1_CLEAR if _reward > 0 else
+        SFX_MG1_FAIL
+    )
+
+    on "show" action Play("result", _result_sfx)
 
     add MG1_BG_BG:
         fit "cover"
@@ -812,7 +799,7 @@ screen mg1_result_popup():
                 hover_background Transform(MG1_BTN_HOVER, zoom=MG1_BTN_ZOOM,  xoffset=30,   yoffset=55)
                 focus_mask True
 
-                hovered [ Play("sound", SFX_UI_HOVER), SetScreenVariable("hover_proceed", True) ]
+                hovered [ Play("ui", SFX_UI_HOVER), SetScreenVariable("hover_proceed", True) ]
                 unhovered SetScreenVariable("hover_proceed", False)
 
                 action Return()
