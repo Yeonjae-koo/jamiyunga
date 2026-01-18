@@ -50,8 +50,8 @@ define MG2_PLUM_128      = "minigames/game2/images/plumblossom_128.webp"
 define MG2_MOON_128      = "minigames/game2/images/moon_128.webp"
 
 # sfx (game2)
-define MG2_SFX_COIN     = "minigames/game2/sounds/coin.mp3"
-define MG2_SFX_BOMB     = "minigames/game2/sounds/bomb.mp3"
+define MG2_SFX_COIN     = "minigames/game2/sound/coin.mp3"
+define MG2_SFX_BOMB     = "minigames/game2/sound/bomb.mp3"
 define MG2_SFX_CLEAR    = "minigames/common/sound/clear.mp3"
 define MG2_SFX_FAIL     = "minigames/common/sound/fail.mp3"
 
