@@ -9,7 +9,7 @@ define JinhyoShowCharacter = Position(xalign = 0.9, yalign = 0.0)
 define JinhyoLeftCharacter = Position(xalign = 0.98, yalign = 0.0)
 define JinhyoRightCharacter = Position(xalign = 0.95, yalign = -0.1)
 
-define backShowCharacter = Position(xalign = 0.8, yalign = -0.05)
+define backShowCharacter = Position(xalign = 0.85, yalign = -0.02)
 
 define ShowCharacter = Position(xalign = 0.98, yalign = 0.02)
 define RightCharacter = Position(xalign = 0.95, yalign = 0.02)

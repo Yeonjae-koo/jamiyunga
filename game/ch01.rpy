@@ -230,12 +230,15 @@ label ch01:
     hide back with dissolve
     
     princess "(백담우의 피 묻은 손이 다급하게 내 손을 끌어당겼다.)" 
+
+    #미니게임1
+    call minigame1_main
     princess " (그렇게 우리는 또다시 달리고, )"
     princess "(또 달리고, )" 
     princess "(또 달렸다.)"
     princess  "(그렇게 우리는 그날, 무너져 내리는 영나성에서 빠져나올 수 있었다.)"
 
-    # $ mini_game_result = "success" 
+    
 
     scene forest with scene_fade
     
@@ -521,7 +524,7 @@ label ch01:
 
     menu:
         "상처가 깊군요! 어서 의원을 불러야겠습니다.":
-            # $ anonymous_affinity += 5 # 중간 호감도 주석 처리
+            # $ Hwayajin_affinity += 5 # 중간 호감도 주석 처리
             princess "(나는 남자의 의중을 모르는 척, 다급한 표정을 지으며 다가갔다.)"
             princess "상처가 깊군요! 어서 의원을 불러야겠습니다."
             anonymous "...윽," with vpunch
@@ -539,7 +542,7 @@ label ch01:
             princess "(내 옷자락을 붙잡는 남자의 손아귀에 힘이 들어갔다. 살려달라는 말과 달리, 그의 눈에는 목적을 달성했다는 확신이 서려 있었다.)"
 
         "당신의 그 상처, 제 눈을 속이려 일부러 만든 게 아닙니까?":
-            # $ anonymous_affinity += 10 # 최고 호감도 주석 처리
+            # $ Hwayajin_affinity += 10 # 최고 호감도 주석 처리
             princess "(나는 그에게 다가가는 대신, 차가운 눈빛으로 그의 상처를 가리켰다.)"
             anonymous "...?"
             princess "당신의 그 상처, 내 눈을 속이려 일부러 만든 게 아닙니까?"
@@ -570,7 +573,7 @@ label ch01:
             princess "어서."
 
         "백담우, 이 자를 두고 간다.":
-            # $ anonymous_affinity -= 10 # 최저 호감도 주석 처리
+            # $ Hwayajin_affinity -= 10 # 최저 호감도 주석 처리
             princess "(나는 미련 없이 몸을 돌렸다. 스스로를 해하면서까지 나를 부른 의도가 결코 선량할 리 없었다.)"
             princess "백담우, 가자. 이 자를 두고 간다."
             show back at ShowCharacter with dissolve

@@ -38,6 +38,9 @@ define gui.about = _p("""
 
 define build.name = "gameproject"
 
+#esc키 메인메뉴로 나가기
+define config.game_menu_action = MainMenu(confirm=True)
+
 
 ## 음악과 음향 ######################################################################
 

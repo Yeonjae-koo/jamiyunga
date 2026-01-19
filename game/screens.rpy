@@ -301,7 +301,7 @@ style choice_button_text is default:
 screen quick_menu():
 
     ## 다른 화면 위에 표시되는지 확인합니다.
-    zorder 100
+    zorder 200
 
     if quick_menu:
 
@@ -488,8 +488,7 @@ style main_menu_version is main_menu_text
 style main_menu_frame:
     xsize 420
     yfill True
-
-    background "images/UI/homepageimg.webp"
+    background Transform("images/UI/ladingpage_background.webp", fit="cover")
 
 style main_menu_vbox:
     xalign 1.0
@@ -690,7 +689,7 @@ screen load():
     default show_delete_modal = False
 
     add Solid ("#ffffff")
-    add "images/background/flower-background.webp"
+    add Transform("images/UI/night_background.webp", fit="cover")
     
 
     text "불러오기":
