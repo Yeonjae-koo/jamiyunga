@@ -301,7 +301,7 @@ style choice_button_text is default:
 screen quick_menu():
 
     ## 다른 화면 위에 표시되는지 확인합니다.
-    zorder 200
+    zorder 999
 
     if quick_menu:
 
@@ -313,7 +313,7 @@ screen quick_menu():
             textbutton _("대사록") action ShowMenu('history')
             textbutton _("넘기기") action Skip() alternate Skip(fast=True, confirm=True)
             textbutton _("자동진행") action Preference("auto-forward", "toggle")
-            textbutton _("저장하기") action [ Function(save_to_loadpage_slot), Notify(_("저장되었습니다.")) ]
+            textbutton _("저장하기") action ShowMenu("save")
             textbutton _("설정") action ShowMenu('preferences')
             textbutton _("나가기") action MainMenu()
 

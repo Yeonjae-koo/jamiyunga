@@ -452,23 +452,27 @@ label ch03:
     princess "(복도를 따라 얼마나 걸었을까, 길이 두 갈래로 나뉘었다. 어느 쪽으로 가야 할까? 선택의 대가는 오직 나의 몫이다.)"
 
     # [미니게임]
+    call minigame3_main
+    if mg3_life <= 0:
+        jump minigame3_gameover
 
     # <미니게임 속 게임오버 엔딩>
-    # anonymous "참 말을 안들으시네요. 그동안 당신의 호위무사가 고생 꽤나 했겠어."
-    # princess "(이 목소리는... 화야진...?)"
-    # princess "(고개를 들자, 어둠 속에서 번뜩이는 그의 호박색 눈동자가 나를 내려다보고 있었다.)"
-    # princess "(여태까지와 달리, 무미건조한 무표정만이 그의 얼굴을 덮고 있었다.)"
-    # Hwayajin "도망갈 생각은 꿈도 꾸지 말라고 분명 경고했던 것 같은데."
-    # Hwayajin "말도 안듣고,"
-    # Hwayajin "무모하고,"
-    # Hwayajin "아둔하고."
-    # princess "(그의 손이 내 뒷덜미를 거칠게 낚아챘다. 저항할 틈조차 없었다.)"
-    # princess "(그가 내 귓가에 입술을 바짝 대고 낮게 읊조렸다.)"
-    # Hwayajin "제멋대로 굴어서 상처만 늘어나는, 별로 쓸모도 없을 것 같은 '보물'은..."
-    # Hwayajin "상인으로서 어떻게 처리해야 할까요?"
-    # play sound "heavy_hit.mp3" # 효과음 주석 처리
-    # scene black with fade # 화면 암전
-    # <게임오버 엔딩 끝>
+    label minigame3_gameover:
+        anonymous "참 말을 안들으시네요. 그동안 당신의 호위무사가 고생 꽤나 했겠어."
+        princess "(이 목소리는... 화야진...?)"
+        princess "(고개를 들자, 어둠 속에서 번뜩이는 그의 호박색 눈동자가 나를 내려다보고 있었다.)"
+        princess "(여태까지와 달리, 무미건조한 무표정만이 그의 얼굴을 덮고 있었다.)"
+        Hwayajin "도망갈 생각은 꿈도 꾸지 말라고 분명 경고했던 것 같은데."
+        Hwayajin "말도 안듣고,"
+        Hwayajin "무모하고,"
+        Hwayajin "아둔하고."
+        princess "(그의 손이 내 뒷덜미를 거칠게 낚아챘다. 저항할 틈조차 없었다.)"
+        princess "(그가 내 귓가에 입술을 바짝 대고 낮게 읊조렸다.)"
+        Hwayajin "제멋대로 굴어서 상처만 늘어나는, 별로 쓸모도 없을 것 같은 '보물'은..."
+        Hwayajin "상인으로서 어떻게 처리해야 할까요?"
+        play sound "heavy_hit.mp3" # 효과음 주석 처리
+        scene black with fade # 화면 암전
+        #<게임오버 엔딩 끝>
 
     # play sound "door_open.mp3" # 효과음 주석 처리
     princess "...!"
