@@ -9,11 +9,17 @@ define JinhyoShowCharacter = Position(xalign = 0.9, yalign = 0.0)
 define JinhyoLeftCharacter = Position(xalign = 0.98, yalign = 0.0)
 define JinhyoRightCharacter = Position(xalign = 0.95, yalign = -0.1)
 
+
+define HwaShowCharacter = Position(xalign = 0.80, yalign = 1.0)
+
+
+
 define backShowCharacter = Position(xalign = 0.85, yalign = -0.02)
 
 define ShowCharacter = Position(xalign = 0.98, yalign = 0.02)
 define RightCharacter = Position(xalign = 0.95, yalign = 0.02)
 define LeftCharacter = Position (xalign = 0.25, yalign = 0.02)
+
 
 #캐릭터 이미지 정의
 image side princess = Transform("images/character/월영.webp", zoom=0.17)

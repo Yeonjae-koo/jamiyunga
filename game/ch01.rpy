@@ -24,6 +24,7 @@ image hwarimhun_night = "images/background/화림헌처소_밤.webp"
 image princess_room = "images/background/화림헌처소.webp"
 image market = "images/background/market.webp"
 image flashback_filter = Solid("#6c654f24")
+image sickHwayajin = Transform("images/character/화야진아픔.webp", zoom = 0.115)
 
 # 캐릭터 이미지 정의
 
@@ -231,8 +232,13 @@ label ch01:
     
     princess "(백담우의 피 묻은 손이 다급하게 내 손을 끌어당겼다.)" 
 
-    #미니게임1
-    call minigame1_main
+    # 미니게임1 (game1.rpy 수정 없이, 여기서 제어)
+    $ _qm = quick_menu
+    $ _ = renpy.call_in_new_context("minigame1_main")
+
+    $ quick_menu = _qm
+        
+
     princess " (그렇게 우리는 또다시 달리고, )"
     princess "(또 달리고, )" 
     princess "(또 달렸다.)"
@@ -501,7 +507,7 @@ label ch01:
     back "공주님! 물러서 계십시오."
     princess "......"
     princess "(조심스럽게 앞을 살펴니 먼지 쌓인 자재 더미 옆으로 한 남자가 쓰러져 있었다. 남자의 옷에서 피가 짙게 배어 나오고 있었다. 이건… 진짜 피다.)"
-    show Hwayajin at ShowCharacter with dissolve
+    show sickHwayajin at HwaShowCharacter with dissolve
     anonymous "으윽..."
     princess "(남자가 고통스럽게 신음하며 고개를 들었다. 이 지역 사람이라기엔 이목구비가 너무 뚜렷하고 선이 굵었다.)" 
     princess "(태휘국이나 청월국의 귀족들과는 확연히 다른, 거칠고 낯선 인상이었다.)"
@@ -511,11 +517,11 @@ label ch01:
     princess "(도움을 요청하는 목소리와는 달리, 나를 빤히 바라보는 밝은 호박색 눈은 마치 나를 시험하는 것처럼 번뜩였다.)" 
     princess "(단순히 다친 사람이라기엔 느껴지는 위압감이 상당했다.)" 
     princess "(이 남자는... 위험하다.)"
-    hide Hwayajin with dissolve
+    hide sickHwayajin with dissolve
     show back at ShowCharacter with dissolve
     back "공주님, 그냥 무시하고 지나가는 게 좋겠습니다. 함정일지도 모릅니다."
     hide back with dissolve
-    show Hwayajin at ShowCharacter with dissolve
+    show sickHwayajin at HwaShowCharacter with dissolve
     anonymous "......"
     princess "(남자는 백담우의 살기 어린 시선은 능청스럽게 무시한 채, 오직 내 쪽만 바라보고 있었다.)" 
     princess "(…이상하다. 분명 고통스러워하는데, 목소리에 힘이 있다. 그리고 저 상처… 짐승에게 물린 것도, 칼싸움을 한 흔적도 아니다.)"
@@ -549,13 +555,13 @@ label ch01:
             anonymous "......"
             princess "(눈 앞의 남자는 잠시 멍한 표정을 짓더니, 작은 탄성을 내뱉었다.)"
             anonymous "...쿨럭! 하...역시. 청월국의 장희공주께서는... 참 예리하시네요. 소문보다, 훨씬 더..."
-            hide Hwayajin with dissolve
+            hide sickHwayajin with dissolve
             show back at ShowCharacter with dissolve
             back "...! 이놈이 감히 공주님을 속이려—"
             princess "(나는 검을 뽑으려는 담우의 팔을 제지하며 남자에게 물었다.)"
             hide back with dissolve
             princess "나를 만나기 위해 이런 일을 벌인 거라면, 그만한 이야기를 들고 왔겠죠?"
-            show Hwayajin at ShowCharacter with dissolve
+            show sickHwayajin at HwaShowCharacter with dissolve
             anonymous "공주님께서... 저를 살려만 주신다면... 기꺼이, 윽, 들려드릴 것입니다..."
             princess "......"
             anonymous "...다 좋은데, 일단 빨리... 저를 어디든 데려가 주시면 안되겠습니까? 물론... 눈에 안 띄는 곳으로..." 
@@ -579,7 +585,7 @@ label ch01:
             show back at ShowCharacter with dissolve
             back "예, 공주님. 돌아가시죠."
             hide back with dissolve
-            show Hwayajin at ShowCharacter with dissolve
+            show sickHwayajin at HwaShowCharacter with dissolve
             anonymous "...! 윽, 헉...!" with vpunch
             princess "(남자의 얼굴에서 순간 당황스러움이 스쳤다.)"
             anonymous "잠깐...! 공주님... 컥, 으윽! 청월국 유민들의 안위가... 이대로 중요하지 않은, 것입니까...?"
@@ -587,7 +593,7 @@ label ch01:
             princess "...그게 무슨 말이지?"
             anonymous "그건... 헉..., 저를 안전한 곳으로… 옮겨주시면…. 상세히, 말씀… 드리겠습니다… "
             anonymous "저를 살려주신다면,,, 분명 그 값을 하는... 윽! 이야기일 겁니다...!"
-            hide Hwayajin with dissolve
+            hide sickHwayajin with dissolve
             princess "(나는 발걸음을 멈췄다. 나라 잃은 주군으로서 그 말을 외면할 수는 없었으니까.)" 
             princess "(이것 또한 저 자의 함정일지 모른다. 하지만 저 입을 열게 하려면 일단 살려두어야 한다.)"
             princess "…담우야. 마음이 바뀌었다. 저자를 화림헌으로 데려가자."
