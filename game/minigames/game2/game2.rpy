@@ -2,22 +2,34 @@
 
 ##############################################################################
 # Minigame 2 : 월하의 인연 수집
-# - Main / Help (2 pages)
-# - Play (Falling Catch)
+# - Main / Help (2 pages) / Play (Falling Catch) / Result Screen
+# - common.rpy 공용 상수 사용 (MG2_*로 매핑)
 ##############################################################################
 
 # ============================================================================#
-# ASSETS (COMMON)
+# CHANNELS
 # ============================================================================#
-define MG2_BTN_IDLE      = "minigames/common/images/button_idle.webp"
-define MG2_BTN_HOVER     = "minigames/common/images/button_hover.webp"
-define MG2_UI_HOVER_SFX  = "minigames/common/sound/hover.mp3"
+init -10 python:
+    renpy.music.register_channel("mg2_sfx",    "sfx", loop=False)
+    renpy.music.register_channel("mg2_ui",     "sfx", loop=False)
+    renpy.music.register_channel("mg2_result", "sfx", loop=False)
 
-define MG2_FONT = "fonts/Galmuri9.ttf"
-define MG2_BTN_ZOOM = 0.55
+
+# ============================================================================#
+# ASSETS (COMMON)  +  common.rpy 매핑
+# ============================================================================#
+define MG2_BTN_IDLE  = UI_BTN_IDLE
+define MG2_BTN_HOVER = UI_BTN_HOVER
+
+define MG2_FONT = UI_FONT
+
+define MG2_BTN_ZOOM  = 0.55
 define MG2_TXT_IDLE  = "#444444"
 define MG2_TXT_HOVER = "#FFFFFF"
 define MG2_TXT_LIFT  = 2
+
+# hover sfx는 common.rpy 전역 사용: SFX_UI_HOVER
+# result sfx도 common.rpy 전역 사용: SFX_COMMON_FAIL / CLEAR / WIN
 
 # ============================================================================#
 # ASSETS (GAME2)
@@ -49,11 +61,9 @@ define MG2_FIREWORKS_128 = "minigames/game2/images/fireworks_128.webp"
 define MG2_PLUM_128      = "minigames/game2/images/plumblossom_128.webp"
 define MG2_MOON_128      = "minigames/game2/images/moon_128.webp"
 
-# sfx (game2)
-define MG2_SFX_COIN     = "minigames/game2/sound/coin.mp3"
-define MG2_SFX_BOMB     = "minigames/game2/sound/bomb.mp3"
-define MG2_SFX_CLEAR    = "minigames/common/sound/clear.mp3"
-define MG2_SFX_FAIL     = "minigames/common/sound/fail.mp3"
+# sfx (game2 전용)
+define MG2_SFX_COIN = "minigames/game2/sound/coin.mp3"
+define MG2_SFX_BOMB = "minigames/game2/sound/bomb.mp3"
 
 
 # ============================================================================#
@@ -124,7 +134,7 @@ screen mg2_main():
                     imagebutton:
                         idle Transform(MG2_BTN_IDLE,  zoom=MG2_BTN_ZOOM)
                         hover Transform(MG2_BTN_HOVER, zoom=MG2_BTN_ZOOM)
-                        hovered [ Play("sound", MG2_UI_HOVER_SFX), SetScreenVariable("hover_help", True) ]
+                        hovered [ Play("mg2_ui", SFX_UI_HOVER), SetScreenVariable("hover_help", True) ]
                         unhovered SetScreenVariable("hover_help", False)
                         action Jump("minigame2_help")
                         xalign 0.5
@@ -146,7 +156,7 @@ screen mg2_main():
                     imagebutton:
                         idle Transform(MG2_BTN_IDLE,  zoom=MG2_BTN_ZOOM)
                         hover Transform(MG2_BTN_HOVER, zoom=MG2_BTN_ZOOM)
-                        hovered [ Play("sound", MG2_UI_HOVER_SFX), SetScreenVariable("hover_start", True) ]
+                        hovered [ Play("mg2_ui", SFX_UI_HOVER), SetScreenVariable("hover_start", True) ]
                         unhovered SetScreenVariable("hover_start", False)
                         action Jump("minigame2_play")
                         xalign 0.5
@@ -207,7 +217,7 @@ screen mg2_help_1():
                 text_size 32
                 text_color "#FFFFFF"
                 text_hover_color "#DDDDDD"
-                hovered Play("sound", MG2_UI_HOVER_SFX)
+                hovered Play("mg2_ui", SFX_UI_HOVER)
                 action Jump("minigame2_main")
                 xalign 0.985
                 yalign 0.02
@@ -241,7 +251,7 @@ screen mg2_help_1():
                 imagebutton:
                     idle Transform(MG2_BTN_IDLE,  zoom=MG2_BTN_ZOOM)
                     hover Transform(MG2_BTN_HOVER, zoom=MG2_BTN_ZOOM)
-                    hovered [ Play("sound", MG2_UI_HOVER_SFX), SetScreenVariable("hover_next", True) ]
+                    hovered [ Play("mg2_ui", SFX_UI_HOVER), SetScreenVariable("hover_next", True) ]
                     unhovered SetScreenVariable("hover_next", False)
                     action Jump("minigame2_help2")
                     xalign 0.5
@@ -313,7 +323,7 @@ screen mg2_help_2():
                 text_size 32
                 text_color "#FFFFFF"
                 text_hover_color "#DDDDDD"
-                hovered Play("sound", MG2_UI_HOVER_SFX)
+                hovered Play("mg2_ui", SFX_UI_HOVER)
                 action Jump("minigame2_main")
                 xalign 0.985
                 yalign 0.02
@@ -378,7 +388,7 @@ screen mg2_help_2():
                 imagebutton:
                     idle Transform(MG2_BTN_IDLE,  zoom=MG2_BTN_ZOOM)
                     hover Transform(MG2_BTN_HOVER, zoom=MG2_BTN_ZOOM)
-                    hovered [ Play("sound", MG2_UI_HOVER_SFX), SetScreenVariable("hover_prev", True) ]
+                    hovered [ Play("mg2_ui", SFX_UI_HOVER), SetScreenVariable("hover_prev", True) ]
                     unhovered SetScreenVariable("hover_prev", False)
                     action Jump("minigame2_help")
                     xalign 0.5
@@ -399,7 +409,7 @@ screen mg2_help_2():
                 imagebutton:
                     idle Transform(MG2_BTN_IDLE,  zoom=MG2_BTN_ZOOM)
                     hover Transform(MG2_BTN_HOVER, zoom=MG2_BTN_ZOOM)
-                    hovered [ Play("sound", MG2_UI_HOVER_SFX), SetScreenVariable("hover_start", True) ]
+                    hovered [ Play("mg2_ui", SFX_UI_HOVER), SetScreenVariable("hover_start", True) ]
                     unhovered SetScreenVariable("hover_start", False)
                     action Jump("minigame2_play")
                     xalign 0.5
@@ -435,9 +445,9 @@ define MG2_TOTAL_SPAWN = 20
 define MG2_BOMB_I_1 = 7
 define MG2_BOMB_I_2 = 14
 
-# HUD (두루마리)
-define MG2_HUD_SCROLL = "minigames/common/images/ui_scroll_long.webp"
-define MG2_UI_SCROLL = "minigames/common/images/ui_scroll_medium.webp"
+# HUD (두루마리) - common.rpy 매핑
+define MG2_HUD_SCROLL = UI_SCROLL_LONG
+define MG2_UI_SCROLL  = UI_SCROLL_MEDIUM
 define MG2_HUD_ZOOM   = 0.28
 define MG2_HUD_X      = -22
 define MG2_HUD_Y      = -22
@@ -673,7 +683,7 @@ init python:
             store.mg2_stun = MG2_STUN_SEC
             store.mg2_combo_kind = None
             store.mg2_combo_n = 0
-            renpy.sound.play(MG2_SFX_BOMB)
+            renpy.sound.play(MG2_SFX_BOMB, channel="mg2_sfx")
             return
 
         # 장식은 무시(카운트/점수 X)
@@ -694,7 +704,7 @@ init python:
                 store.mg2_chess += 2
                 store.mg2_score += MG2_PT_CHESS * 2
 
-            renpy.sound.play(MG2_SFX_COIN)
+            renpy.sound.play(MG2_SFX_COIN, channel="mg2_sfx")
 
             store.mg2_combo_kind = None
             store.mg2_combo_n = 0
@@ -711,7 +721,7 @@ init python:
             store.mg2_chess += 1
             store.mg2_score += MG2_PT_CHESS
 
-        renpy.sound.play(MG2_SFX_COIN)
+        renpy.sound.play(MG2_SFX_COIN, channel="mg2_sfx")
 
         if store.mg2_combo_kind == k:
             store.mg2_combo_n += 1
@@ -940,7 +950,11 @@ screen mg2_result():
 
     default hover_proceed = False
 
-    on "show" action If((mg2_dagger == 0 and mg2_pendant == 0 and mg2_chess == 0), true=Play("sound", MG2_SFX_FAIL), false=Play("sound", MG2_SFX_CLEAR))
+    on "show" action If(
+        (mg2_dagger == 0 and mg2_pendant == 0 and mg2_chess == 0),
+        true=Play("mg2_result", SFX_COMMON_FAIL),
+        false=Play("mg2_result", SFX_COMMON_CLEAR)
+    )
 
     add MG2_BG_BG:
         fit "cover"
@@ -1030,7 +1044,7 @@ screen mg2_result():
                 hover_background Transform(MG2_BTN_HOVER, zoom=MG2_BTN_ZOOM, xoffset=30, yoffset=55)
                 focus_mask True
 
-                hovered [ Play("sound", MG2_UI_HOVER_SFX), SetScreenVariable("hover_proceed", True) ]
+                hovered [ Play("mg2_ui", SFX_UI_HOVER), SetScreenVariable("hover_proceed", True) ]
                 unhovered SetScreenVariable("hover_proceed", False)
 
                 action Return()

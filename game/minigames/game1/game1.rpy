@@ -4,24 +4,26 @@
 # Minigame 1 : 몽진의 밤
 # - Main / Help UI
 # - Runner Play (Parallax + Player Anim + Obstacles + Timer + Result)
+# - common.rpy 공용 상수 사용 (MG1_*로 매핑)
 ##############################################################################
 
 # ---------- CHANNELS ----------
 # (BGM은 나중에 추가, 지금은 sfx / ui / result만 분리)
 init -10 python:
-    renpy.music.register_channel("sfx", "sfx", loop=False)
-    renpy.music.register_channel("ui", "sfx", loop=False)
+    renpy.music.register_channel("sfx",    "sfx", loop=False)
+    renpy.music.register_channel("ui",     "sfx", loop=False)
     renpy.music.register_channel("result", "sfx", loop=False)
 
 
 # ---------- ASSETS (MAIN/HELP) ----------
 define MG1_BG_BG        = "minigames/game1/images/bg_game1_bg.webp"
-define MG1_BTN_IDLE     = "minigames/common/images/button_idle.webp"
-define MG1_BTN_HOVER    = "minigames/common/images/button_hover.webp"
-define MG1_REWARD_PANEL = "minigames/game1/images/reward.webp"
 
-# 폰트
-define MG1_FONT = "fonts/Galmuri9.ttf"
+# 공용 UI 에셋 매핑 (common.rpy)
+define MG1_BTN_IDLE     = UI_BTN_IDLE
+define MG1_BTN_HOVER    = UI_BTN_HOVER
+define MG1_FONT         = UI_FONT
+
+define MG1_REWARD_PANEL = "minigames/game1/images/reward.webp"
 
 # 버튼 크기
 define MG1_BTN_ZOOM = 0.55
@@ -274,20 +276,22 @@ define MG1_OBS_TILE    = "minigames/game1/images/obs_tile.webp"
 define MG1_OBS_ROCK    = "minigames/game1/images/obs_rock.webp"
 define MG1_OBS_FIRE    = "minigames/game1/images/obs_fire.webp"
 
-# SFX
+# SFX (game1 전용)
 define SFX_MG1_JUMP  = "minigames/game1/sound/jump.mp3"
 define SFX_MG1_SLIDE = "minigames/game1/sound/slide.mp3"
 define SFX_MG1_CRASH = "minigames/game1/sound/crash.mp3"
-define SFX_UI_HOVER = "minigames/common/sound/hover.mp3"
-define SFX_MG1_WIN   = "minigames/common/sound/win.mp3"
-define SFX_MG1_CLEAR = "minigames/common/sound/clear.mp3"
-define SFX_MG1_FAIL = "minigames/common/sound/fail.mp3"
 
-# HUD UI (COMMON)
-define MG1_UI_SCROLL  = "minigames/common/images/ui_scroll_short.webp"
-define MG1_UI_HEART   = "minigames/common/images/hearts.webp"
-define MG1_UI_BROKEN  = "minigames/common/images/broken_hearts.webp"
-define MG1_UI_SCROLL_MED = "minigames/common/images/ui_scroll_medium.webp"
+# 공용 Result SFX 매핑 (common.rpy)
+define SFX_MG1_WIN   = SFX_COMMON_WIN
+define SFX_MG1_CLEAR = SFX_COMMON_CLEAR
+define SFX_MG1_FAIL  = SFX_COMMON_FAIL
+# SFX_UI_HOVER는 common.rpy 전역 사용
+
+# HUD UI (COMMON) 매핑 (common.rpy)
+define MG1_UI_SCROLL      = UI_SCROLL_SHORT
+define MG1_UI_HEART       = UI_HEART
+define MG1_UI_BROKEN      = UI_BROKEN_HEART
+define MG1_UI_SCROLL_MED  = UI_SCROLL_MEDIUM
 
 define MG1_UI_SCROLL_Z = 0.38
 define MG1_UI_HEART_Z  = 0.07
@@ -465,7 +469,6 @@ init python:
             "z": z,
             "w": hit_w,
             "h": hit_h,
-
         })
 
     def mg1_do_jump():
@@ -607,7 +610,6 @@ label minigame1_play:
     $ mg1_rw = mg1_scaled_w(MG1_BG_ROAD, MG1_Z_ROAD, 1487)
 
     call screen mg1_game
-
     call screen mg1_result_popup
     return
 
@@ -684,7 +686,6 @@ screen mg1_game():
                     add Transform(MG1_UI_HEART, zoom=MG1_UI_HEART_Z)
                 else:
                     add Transform(MG1_UI_BROKEN, zoom=MG1_UI_HEART_Z)
-
 
     # OBSTACLES (그림은 img_y 기준)
     for o in mg1_obstacles:
