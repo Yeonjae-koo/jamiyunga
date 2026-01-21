@@ -4,6 +4,7 @@ image storage_room = "images/background/창고.webp"
 
 # 캐릭터 이미지
 image backFlower = Transform("images/character/백담우꽃.webp", zoom=0.34 )
+image appleHwayajin = Transform("images/character/화야진사과.webp", zoom = 0.109)
 
 label ch02:
 
@@ -77,7 +78,7 @@ label ch02:
     anonymous "저승사자라도 온거면 어쩌나하고 겁먹었는데..."
     anonymous "아리따운 선녀님께서 내려오셨던 거군요!"
 
-    show Hwayajin at ShowCharacter with dissolve
+    show appleHwayajin at HwaShowCharacter with dissolve
     princess "(눈 앞의 남자는 아무렇지도 않게 사과즙을 엄지 손가락으로 쓱 훔쳤다. 그의 호박색 눈동자 한 쌍은 짐승처럼 번들거렸다.)"
     princess "......"
     anonymous"...오, 선녀님은 오늘 기분이 썩 별로이신 모양이로군."
@@ -169,7 +170,7 @@ label ch02:
             anonymous "상인인 건 맞습니다. 남들이 잘 안 파는 것까지 파는 상인이라 그렇지."
             anonymous "때로는 물건을 팔고, 때로는 정보를 팔고... 뭐, 여러가지를 취급하고 있죠."
 
-    # 선택지 끝 [cite: 351]
+    # 선택지 끝 
     
     princess "(나는 한숨을 깊게 내쉬며, 품 속에서 약병과 떡을 꺼내 그에게 툭 던지듯 건넸다.)"
     princess "일단 이것부터 받으세요. 그리고... 이름 정도는 알려주시지요."
@@ -478,7 +479,10 @@ label ch02:
 
     # <선택지로 각 캐릭터들과 살짝 설레는 장면 추가될 가능성 有>
 
-    # [미니게임]
-    call minigame2_main
+    # [미니게임2]
+    $ _qm = quick_menu
+    $ _ = renpy.call_in_new_context("minigame2_main")
+
+    $ quick_menu = _qm
     
     jump ch03 # 다음 장으로 이동

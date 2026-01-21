@@ -452,7 +452,11 @@ label ch03:
     princess "(복도를 따라 얼마나 걸었을까, 길이 두 갈래로 나뉘었다. 어느 쪽으로 가야 할까? 선택의 대가는 오직 나의 몫이다.)"
 
     # [미니게임]
-    call minigame3_main
+    $ _qm = quick_menu
+    $ _ = renpy.call_in_new_context("minigame3_main")
+
+    $ quick_menu = _qm
+
     if mg3_life <= 0:
         jump minigame3_gameover
 
