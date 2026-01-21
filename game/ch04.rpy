@@ -110,7 +110,10 @@ label ch04:
     Hwayajin "못 골라내면...? 글쎄요... 쓸모없는 짐짝을 계속 싣고 가기엔 배가 무거우니, 우리의 '항로'가 약간 달라질지도요...?"
 
     # [미니게임]
-    # $ mini_game_result = renpy.invoke_in_new_context(wood_tile_game)
+    $ _qm = quick_menu
+    $ _ = renpy.call_in_new_context("minigame4_main")
+
+    $ quick_menu = _qm
 
     Hwayajin "후후, 이만하면 됐습니다. 그만 보시죠."
     

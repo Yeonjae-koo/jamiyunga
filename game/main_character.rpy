@@ -10,8 +10,7 @@ define JinhyoLeftCharacter = Position(xalign = 0.98, yalign = 0.0)
 define JinhyoRightCharacter = Position(xalign = 0.95, yalign = -0.1)
 
 
-define HwaShowCharacter = Position(xalign = 0.80, yalign = 1.0)
-
+define HwaShowCharacter = Position(xalign = 0.8, yalign = 1.0)
 
 
 define backShowCharacter = Position(xalign = 0.85, yalign = -0.02)
@@ -27,7 +26,7 @@ image back = Transform("images/character/백담우전신최종.webp", zoom=0.43 
 image back2 = Transform("images/character/백담우전신최종2.webp", zoom=0.43)
 image backSword = Transform("images/character/백담우칼최종.webp", zoom=0.3)
 image backNerveous = Transform("images/character/백담우긴장.webp", zoom=0.3)
-image Jinhyo = Transform("images/character/진효반신.webp", zoom=0.4)
+image Jinhyo = Transform("images/character/진효반신.webp", zoom=0.38)
 image Hwayajin = Transform("images/character/화야진.webp", zoom=0.4)
 
 define scene_fade = Fade(0.5, 0.2, 0.5)
